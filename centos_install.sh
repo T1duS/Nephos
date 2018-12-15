@@ -7,55 +7,26 @@ if [ $(id -u) -ne 0 ]
     exit 1
 fi
 
-if [ -z "$0" ]
-   then echo "Error: Please Specify either ubuntu or debian"
-   exit 1
-fi
-
 # install python3
-add-apt-repository ppa:deadsnakes/ppa -y
-apt-get update -y
-apt-get install python3.4
-
-if [[ $0 == "ubuntu" ]]
-then
-    apt-get install python3-pip
-else
-    # Debian
-    easy_install-3.4 pip
-fi
-
+yum install -y epel-release
+yum install -y python34
+echo "Python 3.4 installed"
+# install pip3
+yum install -y python34-setuptools
+easy_install-3.4 pip
 echo "python-pip installed"
-
 # install pipenv
-if [[ $0 == "ubuntu" ]]
-then 
-    python3.4 -m pip install pipenv
-else
-    # Debian
-    pip3 install pipenv
-fi
-
+pip3 install pipenv
 export PYTHON_BIN_PATH="$(python3 -m site --user-base)/bin"
 export PATH="$PATH:$PYTHON_BIN_PATH"
 echo "pipenv installed"
-
-apt-get install -y screen
-
-if [[ $0 == "debian" ]]
-then
-    apt-get install -y mailx
-fi
+# install mail and screen
+yum install -y mailx screen
 echo "mail tools installed"
 
-if [[ $0 == "debian" ]]
-then
-   apt-get installl -y gcc gcc-c++ libx254-devel
-fi
-
-apt-get install -y autoconf automake bzip2 cmake libfreetype6-dev git libtool make mercurial pkg-config zlib1g-dev libx264-dev libcairo2-dev libpango1.0-dev libicu-dev
+# install dependencies for building following libraries
+yum install -y autoconf automake bzip2 cmake freetype-devel gcc gcc-c++ git libtool make mercurial pkgconfig zlib-devel x264-devel x254-devel cairo-devel pango-devel libicu-devel
 echo "dependencies for building libraries installed"
-
 
 # install multicat
 cd $HOME
@@ -69,18 +40,15 @@ make && make install
 echo "multicat installed"
 
 # install tesseract
-if [[ $0 == "debian" ]]
-    then apt-get install -y leptonica-devel tesseract-devel
-else
-    then apt-get install -y libtesseract-dev tesseract-ocr
-fi
+yum install -y leptonica-devel
+yum install -y tesseract-devel
 
 # install basic tesseract language data
 wget https://github.com/tesseract-ocr/tessdata/raw/3.04.00/fra.traineddata
 wget https://github.com/tesseract-ocr/tessdata/raw/3.04.00/eng.traineddata
 wget https://github.com/tesseract-ocr/tessdata/raw/3.04.00/spa.traineddata
 wget https://github.com/tesseract-ocr/tessdata/raw/3.04.00/rus.traineddata
-$('mv *.traineddata /usr/local/share/tessdata')
+mv *.traineddata /usr/local/share/tessdata
 
 # install FFMPEG and FFPROBE (https://trac.ffmpeg.org/attachment/wiki/CompilationGuide/Centos/ffmpeg_centos7.sh)
 cd $HOME
@@ -104,7 +72,7 @@ git clone --depth 1 https://chromium.googlesource.com/webm/libvpx.git
 wget http://ffmpeg.org/releases/ffmpeg-4.0.tar.gz
 
 # Unpack files
-for file in $('ls ~/ffmpeg_sources/*.tar.*'); do
+for file in `ls ~/ffmpeg_sources/*.tar.*`; do
 tar -xvf ${file}
 done
 

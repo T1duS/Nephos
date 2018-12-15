@@ -43,7 +43,7 @@ later:
 
 ### Install Using Git Clone
 4. 1) Clone the repository, `git clone https://github.com/thealphadollar/nephos.git && cd nephos`<br/>
-   2) On **centOS 6** run the script, `sudo ./install.sh`<br/> The script will install all the aforementioned system dependencies and python libraries for Nephos.<br/>
+   2) Run the script, `sudo ./install.sh`<br/> The script will install all the aforementioned system dependencies and python libraries for Nephos.<br/>
    NOTE: Running `pip3 install .` Will automatically determine your distribution and install the dependencies for you
 5. 1) Observe and modify configurations available in `$HOME/Nephos/config` (**especially maintenance and module configurations, and processing script**)<br/>
         - Update path to various libraries, in the config file, being used; **fatal error might error** in case where the path to binaries (soft links work) is not appropriate.
@@ -54,14 +54,24 @@ later:
 ## To Add Channels And Jobs
 Please go to [Nephos Config](https://github.com/thealphadollar/NephosConfig) repository to modify the channels, jobs and share lists that Nephos works on.
 
+## Running the Web Interface
+Nephos has a Web Interface that you can see how everything works. To get started set the enviorment `FLASK_APP` to the path where webServer.py is and run it with `flask run` and you can see the database entries in an instant!
+
+Currently the web app offers for you to see which channels are jobs in the database and can be accessed by visiting the url flask provides with the following paths: `/channels` and `/jobs`
+
 ## Developer Documentation
 Developers can view the documentation that is present for users since it is detailed and one needs to read it in order to understand how Nephos functions. Along with that, docstrings have been placed in HTML format in
 `docs/DevDocs` and can be accessed in a systematic manner by opening `docs/DevDocs/nephos.html` in a browser.
 
 You can also go [here](https://thealphadollar.github.io/NephosDevDocs/) to access it online.
 
+## Tests
+In order for all code to be successful and well maintanable we run tests to test out the code. To do so run `pipenv run py.test`
+
 ## More Info
 For more information regarding using Nephos and how it works, [visit the wiki](https://www.github.com/thealphadollar/Nephos/wiki)
 
 ## Reporting Bugs
 Bugs should be reported in the [issue tracker](https://github.com/thealphadollar/Nephos/issues). Security issues must be reported at shivam.cs.iit.kgp+nephos@gmail.com to avoid exploitation.
+
+
